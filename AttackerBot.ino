@@ -30,6 +30,8 @@ int ball_x = 0, ball_y = 0
 int goal_1_x = 0, goal_1_y = 0
 int goal_2_x = 0, goal_2_y = 0
 
+// TODO: Adjust angle range to be 0-360 see functions below to change
+// charge_ball
 
 bool transmission_setup_done = false;
 
@@ -148,8 +150,29 @@ void Send_sensor_readings(){
  Serial.println(IR_left);  
 }
 
-void charge_ball() {
+bool rotation_direction(int point_x, int point_y) {
+	// return True for clockwise
+	// or False for anticlockwise
 	
+	
+	
+}
+
+void charge_ball() {
+	// check where the ball is position the bot to face it
+		
+	 //int ball_x = 0, ball_y = 0
+	// 
+
+}
+
+bool stuck_check() {
+	if abs(cur_x_coord - prev_x_coord) + abs(cur_y_coord - prev_y_coord) >= 0.0 {
+		// stuck
+		return True
+	} else {
+		return False
+	}
 }
 
 void find_velocities_and_directions(){
