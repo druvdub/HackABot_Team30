@@ -13,6 +13,7 @@ def write_read_to_arduino(data):
 n=0
 while True:
 
-	data_in = "<Hello world!>"
+	data_in = f"<Hello world!{n}>"
 	data_out = write_read_to_arduino(data_in)
 	print(data_out)
+	n+=1
