@@ -24,16 +24,28 @@ int Right_forward_speed = 50;
 int x_arena_size = 0, y_arena_size = 0;
 int cur_x_coord = 0, cur_y_coord = 0;
 int prev_x_coord = 0, prev_y_coord = 0;
-int cur_angle = 0, pre_angle = 0
+int cur_angle = 0, pre_angle = 0;
 
-int ball_x = 0, ball_y = 0
-int goal_1_x = 0, goal_1_y = 0
-int goal_2_x = 0, goal_2_y = 0
+int ball_x = 0, ball_y = 0;
+int goal_1_x = 0, goal_1_y = 0;
+int goal_2_x = 0, goal_2_y = 0;
 
 // TODO: Adjust angle range to be 0-360 see functions below to change
 // charge_ball
 
 bool transmission_setup_done = false;
+
+// utility functions
+float dot(float vec_1, float vec_2) {
+	return vec_1[0]*vec_2[0] + vec_1[1]*vec_2[1] + vec_1[2]*vec_2[2];	
+}
+
+float magnitude(float vec_1) {
+	float base;
+	base = vec_1[0]*vec_1[0] + vec_1[1]*vec_1[1] + vec[2]*vec_1[2];
+	return pow(base, 0.5);
+}
+
 
 void setup() {
 // initialize serial communication at 9600 bits per second:
@@ -156,12 +168,31 @@ bool rotation_direction(int point_x, int point_y) {
 	
 	
 	
+	
+}
+
+float bot_orientation_to_point(int point_x, int point_y) {
+	float r_diff[2] = {0,0};
+	float rotation[3] = {0,0,0,0,0,0};
+	// R r
+	float theta = abs(cur_angle - atan(cur_y_coord/cur_x_coord));
+	float R[2] = {cos(theta) * cur_x_coord - sin(theta) *  cur_y_coord, 
+				sin(theta) * cur_x_coord + cos(theta) * cur_y_coord};
+	
+	r_1 = float[2] = { , };
+	// r2 - r1
+	r_diff[0] = point_x - cur_x_coord
+	r_diff[1] = point_x - cur_y_coord
+	
+
+	// R r dot (r2 - r1)
+
 }
 
 void charge_ball() {
 	// check where the ball is position the bot to face it
 		
-	 //int ball_x = 0, ball_y = 0
+	//int ball_x = 0, ball_y = 0
 	// 
 
 }
@@ -169,9 +200,9 @@ void charge_ball() {
 bool stuck_check() {
 	if abs(cur_x_coord - prev_x_coord) + abs(cur_y_coord - prev_y_coord) >= 0.0 {
 		// stuck
-		return True
+		return True;
 	} else {
-		return False
+		return False;
 	}
 }
 
