@@ -1,5 +1,6 @@
 import bs4
 import requests
+import json
 
 url = 'https://8.8.8.8'
 # url = 'https://192.168.4.1'
@@ -27,7 +28,7 @@ test = """
 </html>
 
 """
-
+IDs = ["C1", "G43", "G42", "M24", "M2", "C0", "B"]
 
 def get_soup(url):
     r = requests.get(url)
@@ -44,8 +45,24 @@ def get_locations(body):
     locations_text = [loc.next_sibling.strip() for loc in locations]
     return locations_text
 
+def save_data(data_list):
+    data_full = {}
+    i = 0
+    for entry in data_list:
+        temp = entry.split(",")
+        data_full[IDs[i]] = {"x" : temp[1], "y" : temp[2], "angle": temp[3]}
+        i += 1
+    # save to json
+    save_file = open("temp.json","w")
+    json.dump(data_full,save_file)
+    save_file.close()
+
+    return data_full
+
+
 
 if __name__ == "__main__":
     soup = get_soup(url)
     body = get_body(soup)
     locations = get_locations(body)
+    print(locations)
