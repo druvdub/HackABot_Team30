@@ -120,6 +120,7 @@ void Send_sensor_readings(){
 }
 
 
+
 // the loop routine runs over and over again forever:
 void loop() {
 
@@ -129,5 +130,5 @@ void loop() {
  Obstacle_avoidance();
  digitalWrite(LED1,LOW); //Top LED
 
- delay(100);        // delay in between reads for stability
+ delay(1000);        // delay in between reads for stability
 }
