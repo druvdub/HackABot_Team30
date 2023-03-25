@@ -20,9 +20,16 @@ int IR_threshold = 900; // 0 white close obstacle -- 1023 no obstacle
 int Left_forward_speed = 50;
 int Right_forward_speed = 50;
 
+// environment variables stored by the bot
 int x_arena_size = 0, y_arena_size = 0;
 int cur_x_coord = 0, cur_y_coord = 0;
 int prev_x_coord = 0, prev_y_coord = 0;
+int cur_angle = 0, pre_angle = 0
+
+int ball_x = 0, ball_y = 0
+int goal_1_x = 0, goal_1_y = 0
+int goal_2_x = 0, goal_2_y = 0
+
 
 bool transmission_setup_done = false;
 
@@ -33,7 +40,8 @@ void setup() {
 // TODO: Init connection with the transmittor
 // May be a loop waiting to make a connection...
 
-// Obtain the values like the size of the arena, current values of the bots and the ball, 
+// Obtain the values like the size of the arena, current values of the bots and the ball,
+	
 // Find the coordinates where to make a goal 
 // Obtain initial coordinates of the bot which should be set to cur coords 
 // Determine out side of the arena 
@@ -46,6 +54,7 @@ void setup() {
   pinMode(IR_enable, OUTPUT);
 }
 
+// movement functions
 void forward(){
   analogWrite(Motor_right_PWM, Right_forward_speed); // right motor
   digitalWrite(Motor_right_direction, Forward); //right
@@ -137,6 +146,10 @@ void Send_sensor_readings(){
  Serial.print(IR_left_front);
  Serial.print(',');
  Serial.println(IR_left);  
+}
+
+void charge_ball() {
+	
 }
 
 void find_velocities_and_directions(){
