@@ -388,7 +388,8 @@ void Stop()
   MsTimer2::start();
 }
 
-void run_away_from_edge() {
+void run_away_from_edge()
+{
   turn_90(true);
   turn_90(true);
   turn_90(true);
@@ -415,7 +416,20 @@ void loop()
   char *token = strtok(text, " ");
   while (token != NULL && i < 3)
   {
-    tokens[i] = token;
+    if (i == 0)
+    {
+      // Check if the token can be converted to a non-zero floating point value
+      double val = atof(token);
+      if (val != 0)
+      {
+        tokens[i] = token;
+      }
+    }
+    else
+    {
+      tokens[i] = token;
+    }
+
     i++;
     token = strtok(NULL, " ");
   }
@@ -425,15 +439,19 @@ void loop()
   int angle_new = (int)angle;
   bool right = tokens[1]; // assign here
   int result = angle_new / 0.26;
-  bool bounded = tokens[2]
-  if (result != 0){ // follow the ball
-    if (bounded) {
-		// run away from the boundary
-		run_away_from_edge();
-	} else {
-		for (size_t i = 0; i < result; i++){
-			turn_small(right);
-		}
+  bool bounded = tokens[2] if (result != 0)
+  { // follow the ball
+    if (bounded)
+    {
+      // run away from the boundary
+      run_away_from_edge();
+    }
+    else
+    {
+      for (size_t i = 0; i < result; i++)
+      {
+        turn_small(right);
+      }
     }
   }
 

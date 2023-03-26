@@ -1,5 +1,4 @@
 import numpy as np
-import math
 
 
 def calc_S(pos_x, pos_y, ball_x, ball_y):
@@ -61,8 +60,6 @@ def calculate_bot_ball_angle(x, y, x2, y2, theta):
     return round(angle,2), right    
 
 
-    # end if
-
 def stop_at_boundary(pos_x, pos_y, corner_x1, corner_y1, corner_x2, corner_y2):
     # threshold value to check for boundaries
     thresh = 10 
@@ -70,9 +67,9 @@ def stop_at_boundary(pos_x, pos_y, corner_x1, corner_y1, corner_x2, corner_y2):
     if abs(pos_x - corner_x1) < thresh or abs(pos_x - corner_x2) < thresh or \
        abs(pos_y - corner_y1) < thresh or abs(pos_y - corner_y2) < thresh:
         
-        return True
+        return 1
 
-    return False
+    return 0
     
 
 def calculate_bot_goal_angle(bot_x, bot_y, ball_x, ball_y, post_x, post_y):

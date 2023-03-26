@@ -29,8 +29,8 @@ test = """
 IDs = ["C1", "G43", "G42", "M19", "M20", "C0", "B"]
 
 def get_soup(url):
-    r = requests.get(url)
-    soup = bs4.BeautifulSoup(r.content, 'html.parser')
+    # r = requests.get(url)
+    soup = bs4.BeautifulSoup(url, 'html.parser')
     return soup
 
 
@@ -61,7 +61,7 @@ def save_data(data_list):
     return data_full
 
 def scrape_test():
-    soup = get_soup(url)
+    soup = get_soup(test)
     body = get_body(soup)
     locations = get_locations(body)
     return save_data(locations)

@@ -422,6 +422,30 @@ void loop()
     Serial.println(text);
   }
 
+  char *tokens[3];
+  int i = 0;
+
+  char *token = strtok(text, " ");
+  while (token != NULL && i > 2 && i < 6)
+  {
+    if (i == 3)
+    {
+      // Check if the token can be converted to a non-zero floating point value
+      double val = atof(token);
+      if (val != 0)
+      {
+        tokens[i - 3] = token;
+      }
+    }
+    else
+    {
+      tokens[i - 3] = token;
+    }
+
+    i++;
+    token = strtok(NULL, " ");
+  }
+
   guard();
   digitalWrite(LED1, LOW); // Top LED
   delay(100);              // delay in between reads for stability
