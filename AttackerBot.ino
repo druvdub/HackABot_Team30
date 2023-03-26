@@ -89,21 +89,19 @@ void left(int delay_time, int right_velocity, int left_velocity){
   delay(delay_time);
 }
 
-void rotate_in_the_same_place(int delay_time, int bot_x_coord, int chosen_pt_x_coord){
+void rotate_in_the_same_place(int bot_x_coord, int chosen_pt_x_coord){
   if (bot_x_coord > chosen_pt_x_coord){
     analogWrite(Motor_right_PWM, 150); // right motor
     digitalWrite(Motor_right_direction, Reverse); //right
-    analogWrite(Motor_left_PWM, 50); // left 
+    analogWrite(Motor_left_PWM, -150); // left 
     digitalWrite(Motor_left_direction, Forward); //left
-    delay(delay_time);
   }
   else{
-    analogWrite(Motor_right_PWM, 50); // right motor
+    analogWrite(Motor_right_PWM, -150); // right motor
     digitalWrite(Motor_right_direction, Forward); //right
     analogWrite(Motor_left_PWM, 150); // left 
     digitalWrite(Motor_left_direction, Reverse); //left
   }
-
 }
 
 // Variables for 5 IR proximity sensors 
@@ -216,6 +214,7 @@ void loop() {
   // TODO: get data from the transmittor 
 
   digitalWrite(LED1,HIGH); //Top LED
+  // rotate_in_the_same_place(10, 0);
   IR_proximity_read();
   Send_sensor_readings(); 
   Obstacle_avoidance();
