@@ -31,22 +31,8 @@ int ball_x = 0, ball_y = 0;
 int goal_1_x = 0, goal_1_y = 0;
 int goal_2_x = 0, goal_2_y = 0;
 
-// TODO: Adjust angle range to be 0-360 see functions below to change
-// charge_ball
 
 bool transmission_setup_done = false;
-
-// utility functions
-float dot(float vec_1, float vec_2) {
-	return vec_1[0]*vec_2[0] + vec_1[1]*vec_2[1] + vec_1[2]*vec_2[2];	
-}
-
-float magnitude(float vec_1) {
-	float base;
-	base = vec_1[0]*vec_1[0] + vec_1[1]*vec_1[1] + vec[2]*vec_1[2];
-	return pow(base, 0.5);
-}
-
 
 void setup() {
 // initialize serial communication at 9600 bits per second:
@@ -85,22 +71,39 @@ void reverse(int delay_time){
   delay(delay_time);
 }
 
-void right(int delay_time){
+void right(int delay_time, int right_velocity, int left_velocity){
   reverse(50);
-  analogWrite(Motor_right_PWM, 150); // right motor
+  analogWrite(Motor_right_PWM, right_velocity); // right motor
   digitalWrite(Motor_right_direction, Reverse); //right
-  analogWrite(Motor_left_PWM, 40); // left 
+  analogWrite(Motor_left_PWM, left_velocity); // left 
   digitalWrite(Motor_left_direction, Forward); //left
   delay(delay_time);
 }
 
-void left(int delay_time){
+void left(int delay_time, int right_velocity, int left_velocity){
   reverse(50);
-  analogWrite(Motor_right_PWM, 40); // right motor
+  analogWrite(Motor_right_PWM, right_velocity); // right motor
   digitalWrite(Motor_right_direction,Forward); //right
-  analogWrite(Motor_left_PWM, 150); // left 
+  analogWrite(Motor_left_PWM, left_velocity); // left 
   digitalWrite(Motor_left_direction,Reverse); //left
   delay(delay_time);
+}
+
+void rotate_in_the_same_place(int delay_time, int bot_x_coord, int chosen_pt_x_coord){
+  if (bot_x_coord > chosen_pt_x_coord){
+    analogWrite(Motor_right_PWM, 150); // right motor
+    digitalWrite(Motor_right_direction, Reverse); //right
+    analogWrite(Motor_left_PWM, 50); // left 
+    digitalWrite(Motor_left_direction, Forward); //left
+    delay(delay_time);
+  }
+  else{
+    analogWrite(Motor_right_PWM, 50); // right motor
+    digitalWrite(Motor_right_direction, Forward); //right
+    analogWrite(Motor_left_PWM, 150); // left 
+    digitalWrite(Motor_left_direction, Reverse); //left
+  }
+
 }
 
 // Variables for 5 IR proximity sensors 
@@ -134,17 +137,17 @@ void Obstacle_avoidance(){
   if (IR_front<IR_threshold){
       digitalWrite(LED2,HIGH);
       reverse(300);
-      right(500);
+      right(500, 150, 40);
       digitalWrite(LED2,LOW);
   }
   if (IR_right<IR_threshold || IR_right_front<IR_threshold){
       digitalWrite(LED2,HIGH);
-      right(500);
+      right(500, 150, 40);
       digitalWrite(LED2,LOW);
   } else {
       if (IR_left<IR_threshold || IR_left_front<IR_threshold){
           digitalWrite(LED2,HIGH);
-          left(500);
+          left(500, 40, 150);
           digitalWrite(LED2,LOW);
       } else forward();
   } 
@@ -167,9 +170,6 @@ bool rotation_direction(int point_x, int point_y) {
 	// return True for clockwise
 	// or False for anticlockwise
 	
-	
-	
-	
 }
 
 float bot_orientation_to_point(int point_x, int point_y) {
@@ -190,20 +190,7 @@ float bot_orientation_to_point(int point_x, int point_y) {
 }
 
 void charge_ball() {
-	// check where the ball is position the bot to face it
-		
-	//int ball_x = 0, ball_y = 0
-	// 
-
-}
-
-bool stuck_check() {
-	if abs(cur_x_coord - prev_x_coord) + abs(cur_y_coord - prev_y_coord) >= 0.0 {
-		// stuck
-		return True;
-	} else {
-		return False;
-	}
+	
 }
 
 void find_velocities_and_directions(){
@@ -228,7 +215,6 @@ void Stop(){ // set speeds to 0
 void loop() {
   // TODO: get data from the transmittor 
 
-
   digitalWrite(LED1,HIGH); //Top LED
   IR_proximity_read();
   Send_sensor_readings(); 
@@ -236,7 +222,6 @@ void loop() {
   digitalWrite(LED1,LOW); //Top LED
 
   // TODO: Update prev coords 
-
 
   delay(100);        // delay in between reads for stability
 }
