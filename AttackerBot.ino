@@ -32,12 +32,12 @@ int goal_1_x = 0, goal_1_y = 0;
 int goal_2_x = 0, goal_2_y = 0;
 
 
-float dot(float[2] vec_1, float[2] vec_2) {
+float dot(float vec_1[2], float vec_2[2]) {
 	return vec_1[0]*vec_2[0] + vec_1[1]*vec_2[1];
 }
 
-float magnitude(float[2] vec) {
-	return pow(vec[0]*vec[0] + vec[1]*vec[1],0.5)
+float magnitude(float vec[2]) {
+	return pow(vec[0]*vec[0] + vec[1]*vec[1],0.5);
 }
 
 bool transmission_setup_done = false;
@@ -184,8 +184,8 @@ bool point_side_check(float point_x, float point_y) {
 	curr_x_temp += R[0];
 	curr_y_temp += R[1];
 	// make line
-	m = (curr_y_temp - cur_y_coord) / (curr_x_temp - cur_x);
-	c = m*cur_x_coord;
+	float m = (curr_y_temp - cur_y_coord) / (curr_x_temp - cur_x_coord);
+	float c = m*cur_x_coord;
 	float check_point = m * point_x + c;
 	bool above_line;
 	if (point_y > check_point) {
