@@ -97,8 +97,8 @@ void left(int delay_time, int right_velocity, int left_velocity){
   delay(delay_time);
 }
 
-void rotate_in_the_same_place(int bot_x_coord, int chosen_pt_x_coord){
-  if (bot_x_coord > chosen_pt_x_coord){
+void rotate_in_the_same_place(bool clockwise){
+  if (clockwise){
     analogWrite(Motor_right_PWM, 150); // right motor
     digitalWrite(Motor_right_direction, Reverse); //right
     analogWrite(Motor_left_PWM, -150); // left 
@@ -214,7 +214,19 @@ bool point_side_check(float point_x, float point_y) {
 }
 
 void move_to_point(float point_x, float point_y) {
-		
+		float angle = bot_orientation_to_point(point_x, point_y);
+    bool right = point_side_check(point_x, point_y);
+    int dividor = (int)angle;
+    dividor = dividor / 90;
+    if (dividor / 90 >= 1) {
+      turn_90(right);
+    } else if (dividor / 45 >= 1) {
+      turn_45(right);
+    } else if (dividor / 10 >= 1) {
+      turn_10(right);
+    }
+    speed_up();
+    forward();
 }
 
 float bot_orientation_to_point(int point_x, int point_y) {
@@ -233,40 +245,105 @@ float bot_orientation_to_point(int point_x, int point_y) {
 	// magnitude
 }
 
-void charge_ball() {
-
+void speed_up() {
+  Left_forward_speed += 20;
+  Right_forward_speed += 20;
 }
 
-void find_velocities_and_directions(){
-  // this functions should find the velocities and directions of the attacking bot 
+void slow_down() {
+  Left_forward_speed -= 20;
+  Right_forward_speed -= 20;
+}
 
-  // Cases to be considered: 
-  // 1. When the prev and cur coords are not different much which may indicate a collision with 
-  // another player's bot
-  // 2. Going towards the ball - it would be useful to put the max speed possible for the bot to push 
-  // 3. When the ball is in our side, then it could try to push towards opponent's side? 
-  // 4. When the bot is near the wall (it can be calculated mathematically when it is the case)
-  // 5.   
+void turn_90(bool clockwise) {
+  if (clockwise) {
+    right(100,40,40);
+    delay(100);
+    //right(100,60,60);
+  } else {
+    left(100,40,40);
+    delay(100);
+    //left(100,60,60);
+  }
+}
+
+// void turn_10(bool clockwise) {
+//   if (clockwise) {
+//     right(100,2,2);
+//     delay(100);
+//     //right(100,20,30);
+//   } else {
+//     left(100,2,2);
+//     delay(100);
+//     //left(100,20,30);
+//   }
+
+// }
+
+// void turn_45(bool clockwise) {
+//   if (clockwise) {
+//     right(100,10,10);
+//     delay(100);
+//     //right(100,20,30);
+//   } else {
+//     left(100,10,10);
+//     delay(100);
+//     //left(100,20,30);
+//   }
+// }
+
+void guard() {
+    speed_up();
+  // move forward
+    turn_90(true);
+    turn_90(true);
+    turn_90(true);
+    turn_90(true);
+    forward();
+    delay(1000);
+    turn_90(false);
+    turn_90(false);
+    turn_90(false);
+    turn_90(false);
+    forward();
+    delay(1000);
+  // move backwards
+}
+
+void turn_small(bool clockwise) { // turn about 15 degrees
+  if (clockwise) {
+    right(100,2,0);
+    delay(100);
+    //right(100,20,30);
+  } else {
+    left(100,0,2);
+    delay(100);
+    //left(100,20,30);
+  }
 }
 
 void Stop(){ // set speeds to 0
-  analogWrite(Motor_right_PWM, 0); // right motor
-  analogWrite(Motor_left_PWM, 0); // left 
+  analogWrite(Motor_right_PWM, 0);
+  analogWrite(Motor_left_PWM, 0);
   MsTimer2::start();
 }
 
 // the loop routine runs over and over again forever:
+int i = 0;
 void loop() {
   // TODO: get data from the transmittor 
+  // assign data to angle and right
+  float angle = 0; // assign here
+  int angle_new = (int) angle;
+  bool right = true; // assign here
+  int result = angle_new/0.26;
+  if (result != 0) {
+      for (size_t i = 0; i<result; i++) {
+        turn_small(right);
+      }
+  }
 
-  digitalWrite(LED1,HIGH); //Top LED
-  // rotate_in_the_same_place(10, 0);
-  IR_proximity_read();
-  Send_sensor_readings(); 
-  Obstacle_avoidance();
+  forward();
   digitalWrite(LED1,LOW); //Top LED
-
-  // TODO: Update prev coords 
-
   delay(100);        // delay in between reads for stability
 }
