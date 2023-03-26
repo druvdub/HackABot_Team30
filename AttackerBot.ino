@@ -173,7 +173,7 @@ bool rotation_direction(int point_x, int point_y) {
 float bot_orientation_to_point(int point_x, int point_y) {
 	float temp;
 	float r_diff[2] = {0,0};
-	float rotation[3] = {0,0,0,0,0,0};
+	float rotation[6] = {0,0,0,0,0,0};
 	// R r
 	float theta = abs(cur_angle - atan(cur_y_coord/cur_x_coord));
 	float R[2] = {cos(theta) * cur_x_coord - sin(theta) *  cur_y_coord, 
@@ -183,7 +183,7 @@ float bot_orientation_to_point(int point_x, int point_y) {
 	r_diff[1] = point_x - cur_y_coord;
 	// R r dot (r2 - r1)
 	temp = dot(R,r_diff);
-	return acos((magnitude(R) * magnitude(r_diff))/temp)
+	return acos((magnitude(R) * magnitude(r_diff))/temp);
 	// magnitude
 }
 
