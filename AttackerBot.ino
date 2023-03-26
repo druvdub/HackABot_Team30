@@ -32,6 +32,14 @@ int goal_1_x = 0, goal_1_y = 0;
 int goal_2_x = 0, goal_2_y = 0;
 
 
+float dot(float vec_1, float vec_2) {
+	return vec_1[0]*vec_2[0] + vec_1[1]*vec_2[1];
+}
+
+float magnitude(float vec) {
+	return pow(vec[0]*vec[0] + vec[1]*vec[1],0.5)
+}
+
 bool transmission_setup_done = false;
 
 void setup() {
@@ -164,16 +172,51 @@ void Send_sensor_readings(){
  Serial.println(IR_left);  
 }
 
-bool rotation_direction(int point_x, int point_y) {
-	// return True for clockwise
-	// or False for anticlockwise
-	
+bool point_side_check(float point_x, float point_y) {
+	// returns True if right -> rotate clockwise
+	// returns False if left -> rotate anticlockwise
+	float theta = abs(cur_angle - atan(cur_y_coord/cur_x_coord));
+	float R[2] = {cos(theta) * cur_x_coord - sin(theta) *  cur_y_coord, 
+				sin(theta) * cur_x_coord + cos(theta) * cur_y_coord};
+	float curr_x_temp += R[0];
+	float curr_y_temp += R[1];
+	// make line
+	m = (curr_y_temp - cur_y_coord) / (curr_x_temp - cur_x)
+	c = m*cur_x_coord
+	float check_point = m * point_x + c
+	bool above_line;
+	if (point_y > check_point) {
+		if (cur_x_coord > 0) {
+			// left
+			return false
+		} else {
+			// right
+			return true
+		}
+	} else {
+		if (cur_x_coord < 0) {
+			return false
+		} else {
+			return true
+		}
+	}
+	// if bot pointing right +x on S and above line then the point
+	// is on the left side of the bot
+	// else if bot pointing left -x and above line then the point
+	// is on the right side of the bot
+	// else if bot pointing left -x and below line then the point
+	// is on the left side of the bot
+	// else if bot pointing right +x and below line then the point
+	// is on the right side of the bot
+}
+
+void move_to_point(float point_x, float point_y) {
+		
 }
 
 float bot_orientation_to_point(int point_x, int point_y) {
 	float temp;
 	float r_diff[2] = {0,0};
-	float rotation[6] = {0,0,0,0,0,0};
 	// R r
 	float theta = abs(cur_angle - atan(cur_y_coord/cur_x_coord));
 	float R[2] = {cos(theta) * cur_x_coord - sin(theta) *  cur_y_coord, 
@@ -188,7 +231,7 @@ float bot_orientation_to_point(int point_x, int point_y) {
 }
 
 void charge_ball() {
-	
+
 }
 
 void find_velocities_and_directions(){
