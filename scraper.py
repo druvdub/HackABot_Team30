@@ -29,9 +29,8 @@ test = """
 IDs = ["C1", "G43", "G42", "M19", "M20", "C0", "B"]
 
 def get_soup(url):
-    # r = requests.get(url)
-    soup = bs4.BeautifulSoup(test, 'html.parser')
-    print(soup)
+    r = requests.get(url)
+    soup = bs4.BeautifulSoup(r.content, 'html.parser')
     return soup
 
 
@@ -43,8 +42,8 @@ def get_locations(body):
     locations = body.find_all('br')
     locations_text = []
     for i in locations:
-        if i.next_sibling:
-          print(i.next_sibling.strip())
+        if i.next_sibling != None and type(i.next_sibling) == bs4.element.NavigableString:
+            locations_text.append(i.next_sibling.strip())
     return locations_text
 
 def save_data(data_list):
@@ -66,6 +65,3 @@ def scrape_test():
     body = get_body(soup)
     locations = get_locations(body)
     return save_data(locations)
-
-
-scrape_test()

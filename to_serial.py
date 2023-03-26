@@ -1,7 +1,7 @@
 import serial
 import time
 from scraper import scrape_test
-from movement import go_to_point
+from movement import go_to_point, stop_at_boundary
 
 PORT = "COM6"
 SLEEP_TIME = 0.05
@@ -31,9 +31,19 @@ def fetch_data():
 	data = scrape_test()
 	r = list(data['M19'].values())
 	ball = list(data['B'].values())
+	c0 = list(data['C0'].values())
+	c1 = list(data['C1'].values())
+
 	print(ball)
 	print(r)
+	print(c0)
+	print(c1)
+	
 	result = go_to_point(int(r[0]),int(r[1]),int(ball[0]),int(ball[1]))
+	at_boundary = stop_at_boundary(int(r[0]), int(r[1]), int(c0[0]), int(c0[1]), int(c1[0]), int(c1[1]))
+	result.append(at_boundary)
+	result = tuple(result)
+
 	return result
 
 
