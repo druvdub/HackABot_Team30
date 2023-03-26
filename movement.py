@@ -58,13 +58,6 @@ def calculate_bot_ball_angle(x, y, x2, y2, theta):
     return round(angle,2), right    
 
 
-
-    # end if
-    
-  import math
-
-import math
-
 def calculate_bot_goal_angle(bot_x, bot_y, ball_x, ball_y, post_x, post_y):
     # Calculate the vectors from the bot to the ball and to the goal post
     bot_to_ball = [ball_x - bot_x, ball_y - bot_y]
@@ -72,9 +65,9 @@ def calculate_bot_goal_angle(bot_x, bot_y, ball_x, ball_y, post_x, post_y):
 
     # Calculate the angle between the bot-to-ball and bot-to-post vectors using the dot product
     dot_product = bot_to_ball[0]*bot_to_post[0] + bot_to_ball[1]*bot_to_post[1]
-    bot_to_ball_mag = math.sqrt(bot_to_ball[0]**2 + bot_to_ball[1]**2)
-    bot_to_post_mag = math.sqrt(bot_to_post[0]**2 + bot_to_post[1]**2)
-    angle = math.acos(dot_product / (bot_to_ball_mag * bot_to_post_mag))
+    bot_to_ball_mag = np.sqrt(bot_to_ball[0]**2 + bot_to_ball[1]**2)
+    bot_to_post_mag = np.sqrt(bot_to_post[0]**2 + bot_to_post[1]**2)
+    angle = np.arccos(dot_product / (bot_to_ball_mag * bot_to_post_mag))
 
     # Determine whether the rotation should be clockwise or anti-clockwise using the cross product
     cross_product = bot_to_ball[0]*bot_to_post[1] - bot_to_ball[1]*bot_to_post[0]
