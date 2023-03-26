@@ -33,22 +33,37 @@ void setup()
 
 void loop()
 {
-    for (int i = 0; i < 2; i++)
-    {
-        radio.openWritingPipe(address[i]);
+    // for (int i = 0; i < 2; i++)
+    // {
+    //     radio.openWritingPipe(address[i]);
 
-        recvWithStartEndMarkers();
-        showNewData();
-        
+    //     recvWithStartEndMarkers();
+    //     showNewData();
+
+    //     radio.write(&receivedChars, sizeof(receivedChars));
+    //     delay(50);
+    // }
+
+    // // recvWithStartEndMarkers();
+    // // showNewData();
+
+    // // radio.write(&receivedChars, sizeof(receivedChars));
+    // // delay(50);
+
+    recvWithStartEndMarkers();
+    if (newData == true)
+    {
         radio.write(&receivedChars, sizeof(receivedChars));
-        delay(50);
+        newData = false;
     }
 
-    // recvWithStartEndMarkers();
-    // showNewData();
+    radio.openWritingPipe(address[0]);
+    radio.write(&receivedChars, sizeof(receivedChars));
+    delay(50);
 
-    // radio.write(&receivedChars, sizeof(receivedChars));
-    // delay(50);
+    radio.openWritingPipe(address[1]);
+    radio.write(&receivedChars, sizeof(receivedChars));
+    delay(50);
 }
 
 void recvWithStartEndMarkers()

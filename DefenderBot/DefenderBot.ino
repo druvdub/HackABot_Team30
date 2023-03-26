@@ -321,28 +321,35 @@ void turn_90(bool clockwise)
   }
 }
 
-void turn_10(bool clockwise) {
-  if (clockwise) {
-    right(100,2,2);
+void turn_10(bool clockwise)
+{
+  if (clockwise)
+  {
+    right(100, 2, 2);
     delay(100);
-    //right(100,20,30);
-  } else {
-    left(100,2,2);
-    delay(100);
-    //left(100,20,30);
+    // right(100,20,30);
   }
-
+  else
+  {
+    left(100, 2, 2);
+    delay(100);
+    // left(100,20,30);
+  }
 }
 
-void turn_45(bool clockwise) {
-  if (clockwise) {
-    right(100,10,10);
+void turn_45(bool clockwise)
+{
+  if (clockwise)
+  {
+    right(100, 10, 10);
     delay(100);
-    //right(100,20,30);
-  } else {
-    left(100,10,10);
+    // right(100,20,30);
+  }
+  else
+  {
+    left(100, 10, 10);
     delay(100);
-    //left(100,20,30);
+    // left(100,20,30);
   }
 }
 
@@ -350,11 +357,11 @@ void guard()
 {
   speed_up();
   // move forward
-    turn_90(false);
   turn_90(false);
   turn_90(false);
   turn_90(false);
-    turn_90(false);
+  turn_90(false);
+  turn_90(false);
   turn_90(false);
   turn_90(false);
   turn_90(false);
@@ -372,7 +379,7 @@ void guard()
   turn_90(false);
   turn_90(false);
   turn_90(false);
-    turn_90(false);
+  turn_90(false);
   turn_90(false);
   turn_90(false);
   turn_90(false);
