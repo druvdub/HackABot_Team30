@@ -388,6 +388,15 @@ void Stop()
   MsTimer2::start();
 }
 
+void run_away_from_edge() {
+  turn_90(true);
+  turn_90(true);
+  turn_90(true);
+  turn_90(true);
+  forward();
+  delay(1000);
+}
+
 // the loop routine runs over and over again forever:
 int i = 0;
 void loop()
@@ -400,11 +409,11 @@ void loop()
     Serial.println(text);
   }
 
-  char *tokens[2];
+  char *tokens[3];
   int i = 0;
 
   char *token = strtok(text, " ");
-  while (token != NULL && i < 2)
+  while (token != NULL && i < 3)
   {
     tokens[i] = token;
     i++;
@@ -412,15 +421,19 @@ void loop()
   }
 
   // assign data to angle and right
-  float angle = atof(token[0]); // assign here
+  float angle = atof(tokens[0]); // assign here
   int angle_new = (int)angle;
-  bool right = token[1]; // assign here
+  bool right = tokens[1]; // assign here
   int result = angle_new / 0.26;
-  if (result != 0)
-  {
-    for (size_t i = 0; i < result; i++)
-    {
-      turn_small(right);
+  bool bounded = tokens[2]
+  if (result != 0){ // follow the ball
+    if (bounded) {
+		// run away from the boundary
+		run_away_from_edge();
+	} else {
+		for (size_t i = 0; i < result; i++){
+			turn_small(right);
+		}
     }
   }
 

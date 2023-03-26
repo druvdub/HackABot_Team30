@@ -1,4 +1,7 @@
 import numpy as np
+import math
+
+
 def calc_S(pos_x, pos_y, ball_x, ball_y):
     position = np.array([pos_x, pos_y])
     ball = np.array([ball_x, ball_y])
@@ -58,6 +61,20 @@ def calculate_bot_ball_angle(x, y, x2, y2, theta):
     return round(angle,2), right    
 
 
+    # end if
+
+def stop_at_boundary(pos_x, pos_y, corner_x1, corner_y1, corner_x2, corner_y2):
+    # threshold value to check for boundaries
+    thresh = 10 
+     
+    if abs(pos_x - corner_x1) < thresh or abs(pos_x - corner_x2) < thresh or \
+       abs(pos_y - corner_y1) < thresh or abs(pos_y - corner_y2) < thresh:
+        
+        return True
+
+    return False
+    
+
 def calculate_bot_goal_angle(bot_x, bot_y, ball_x, ball_y, post_x, post_y):
     # Calculate the vectors from the bot to the ball and to the goal post
     bot_to_ball = [ball_x - bot_x, ball_y - bot_y]
@@ -76,8 +93,7 @@ def calculate_bot_goal_angle(bot_x, bot_y, ball_x, ball_y, post_x, post_y):
     return angle, right
 
 
-    
 def go_to_point(pos_x, pos_y, ball_x, ball_y):
     angle = calc_rotation_angle(pos_x, pos_y, ball_x, ball_y)
     angle, right = calculate_bot_ball_angle(pos_x, pos_y, ball_x, ball_y, angle)
-    return (angle, right)
+    return [angle, right]
