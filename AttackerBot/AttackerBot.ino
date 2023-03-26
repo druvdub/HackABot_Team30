@@ -439,7 +439,7 @@ void loop()
   int angle_new = (int)angle;
   bool right = tokens[1]; // assign here
   int result = angle_new / 0.26;
-  bool bounded = tokens[2] if (result != 0)
+  bool bounded = (result != 0) ? (bool)tokens[2]: bounded;
   { // follow the ball
     if (bounded)
     {
