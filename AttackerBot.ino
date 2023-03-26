@@ -178,6 +178,9 @@ bool point_side_check(float point_x, float point_y) {
 	float theta = abs(cur_angle - atan(cur_y_coord/cur_x_coord));
 	float R[2] = {cos(theta) * cur_x_coord - sin(theta) *  cur_y_coord, 
 				sin(theta) * cur_x_coord + cos(theta) * cur_y_coord};
+
+	float curr_x_temp = curr_x_temp;
+	float curr_y_temp = curr_y_temp;
 	float curr_x_temp += R[0];
 	float curr_y_temp += R[1];
 	// make line
