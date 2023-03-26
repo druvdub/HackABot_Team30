@@ -13,7 +13,6 @@ def calc_rotation_angle(pos_x, pos_y, ball_x, ball_y):
     for i in range(0,len(position)):
         temp += position[i] * ball[i]
         
-    
     temp2 = (np.sqrt(position[0]**2 + position[1]**2)*np.sqrt(ball[0]**2 + ball[0]**2))
     temp = temp / temp2
     return np.arccos(temp)
@@ -93,4 +92,19 @@ def calculate_bot_goal_angle(bot_x, bot_y, ball_x, ball_y, post_x, post_y):
 def go_to_point(pos_x, pos_y, ball_x, ball_y):
     angle = calc_rotation_angle(pos_x, pos_y, ball_x, ball_y)
     angle, right = calculate_bot_ball_angle(pos_x, pos_y, ball_x, ball_y, angle)
+    # if 
     return [angle, right]
+
+
+def check_if_ball_is_near(prev_result, ball_x, ball_y, goal_x, goal_y):
+    # threshold value to check for boundaries
+    thresh = 10 
+     
+    if abs(ball_x - goal_x) < thresh and abs(ball_y - goal_y) < thresh:
+        
+        angle = calc_rotation_angle(ball_x, ball_y, goal_x, goal_y)
+        angle, right = calculate_bot_ball_angle(ball_x, ball_y, goal_x, goal_y, angle)
+
+        return [angle, right]
+
+    return prev_result
