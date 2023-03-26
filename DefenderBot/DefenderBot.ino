@@ -5,7 +5,7 @@
 
 RF24 radio(7, 8); // CE, CSN
 
-const byte address[6] = "Node20";
+const byte address[6] = "Node19";
 
 // Basic test of Mona robot including proximity sensors and open-loop motion control
 
@@ -411,13 +411,23 @@ void Stop()
   MsTimer2::start();
 }
 
+void run_away_from_edge()
+{
+  turn_90(true);
+  turn_90(true);
+  turn_90(true);
+  turn_90(true);
+  forward();
+  delay(1000);
+}
+
 // the loop routine runs over and over again forever:
 int i = 0;
 void loop()
 {
+  char text[32] = "";
   if (radio.available())
   {
-    char text[32] = "";
     radio.read(&text, sizeof(text));
     Serial.println(text);
   }
@@ -445,8 +455,28 @@ void loop()
     i++;
     token = strtok(NULL, " ");
   }
-
-  guard();
+  Serial.print(tokens[0]);
+  float angle = atof(tokens[0]); // assign here
+  int angle_new = (int)angle;
+  bool right = tokens[1]; // assign here
+  int result = angle_new / 0.26;
+  bool bounded = (result != 0) ? (bool)tokens[2]: bounded;
+  { // follow the ball
+    if (bounded)
+    {
+      // run away from the boundary
+      run_away_from_edge();
+    }
+    else
+    {
+      for (size_t i = 0; i < result; i++)
+      {
+        turn_small(right);
+      }
+    }
+  }
+  forward();
+  // guard();
   digitalWrite(LED1, LOW); // Top LED
   delay(100);              // delay in between reads for stability
 }

@@ -7,7 +7,7 @@
 // Basic test of Mona robot including proximity sensors and open-loop motion control
 RF24 radio(7, 8); // CE, CSN
 
-const byte address[6] = "Node19";
+const byte address[6] = "Node20";
 
 // pin config for basic platform test
 // Motors

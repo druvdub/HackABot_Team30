@@ -84,9 +84,9 @@ def calculate_bot_goal_angle(bot_x, bot_y, ball_x, ball_y, post_x, post_y):
 
     # Determine whether the rotation should be clockwise or anti-clockwise using the cross product
     cross_product = bot_to_ball[0]*bot_to_post[1] - bot_to_ball[1]*bot_to_post[0]
-    right = cross_product < 0
-
-    return angle, right
+    right = 1 if cross_product < 0 else 0
+    angle = round(angle,2)
+    return [angle, right]
 
 
 def go_to_point(pos_x, pos_y, ball_x, ball_y):
