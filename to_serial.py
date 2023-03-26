@@ -1,8 +1,9 @@
 import serial
 import time
 
-PORT = '/dev/ttyUSB0'
+PORT = "COM6"
 SLEEP_TIME = 0.05
+
 
 arduino = serial.Serial(port=PORT, baudrate=115200, timeout=.1)
 
