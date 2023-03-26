@@ -26,6 +26,7 @@ int cur_x_coord = 0, cur_y_coord = 0;
 int prev_x_coord = 0, prev_y_coord = 0;
 int cur_angle = 0, pre_angle = 0;
 
+
 int ball_x = 0, ball_y = 0;
 int goal_1_x = 0, goal_1_y = 0;
 int goal_2_x = 0, goal_2_y = 0;
@@ -172,21 +173,20 @@ bool rotation_direction(int point_x, int point_y) {
 }
 
 float bot_orientation_to_point(int point_x, int point_y) {
+	float temp;
 	float r_diff[2] = {0,0};
 	float rotation[3] = {0,0,0,0,0,0};
 	// R r
 	float theta = abs(cur_angle - atan(cur_y_coord/cur_x_coord));
 	float R[2] = {cos(theta) * cur_x_coord - sin(theta) *  cur_y_coord, 
 				sin(theta) * cur_x_coord + cos(theta) * cur_y_coord};
-	
-	r_1 = float[2] = { , };
 	// r2 - r1
-	r_diff[0] = point_x - cur_x_coord
-	r_diff[1] = point_x - cur_y_coord
-	
-
+	r_diff[0] = point_x - cur_x_coord;
+	r_diff[1] = point_x - cur_y_coord;
 	// R r dot (r2 - r1)
-
+	temp = dot(R,r_diff);
+	return acos((magnitude(R) * magnitude(r_diff))/temp)
+	// magnitude
 }
 
 void charge_ball() {
