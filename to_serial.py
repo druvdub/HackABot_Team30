@@ -34,12 +34,12 @@ our_goal = list()
 def fetch_data():
 	global check_for_goal_sides, our_goal
 	data = scrape_test()
-	r = list(data['M20'].values())
-	ball = list(data['B'].values())
 	g42 = list(data['G42'].values())
 	g43 = list(data['G43'].values())
 	c0 = list(data['C0'].values())
 	c1 = list(data['C1'].values())
+	ball = list(data['B'].values())
+	r = list(data['M20'].values())
 	dbot = list(data['M19'].values())
 
 
@@ -69,7 +69,6 @@ def fetch_data():
 	result.extend(defenderbot)
 	result.append(def_boundary)
 	result = tuple(result)
-	print(result)
 	return result
 
 
